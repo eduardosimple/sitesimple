@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Allow: /llms.txt
+
+Sitemap: https://mktsimple.com.br/sitemap.xml
