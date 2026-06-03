@@ -1,8 +1,9 @@
 {
   "rewrites": [
-    { "source": "/blog", "destination": "/blog/index.html" },
-    { "source": "/blog/", "destination": "/blog/index.html" },
-    { "source": "/blog/:slug", "destination": "/blog/post.html" },
+    { "source": "/blog", "destination": "/api/blog" },
+    { "source": "/blog/", "destination": "/api/blog" },
+    { "source": "/blog/sitemap.xml", "destination": "/api/sitemap" },
+    { "source": "/blog/:slug", "destination": "/api/post?slug=:slug" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

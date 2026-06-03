@@ -1,0 +1,7 @@
+{
+  "name": "mktsimple-blog",
+  "private": true,
+  "dependencies": {
+    "marked": "^4.3.0"
+  }
+}
