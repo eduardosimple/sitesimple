@@ -1,6 +1,6 @@
 // Server-render de um artigo do blog: HTML completo com title/H1/conteúdo/meta/canonical/JSON-LD.
 const {
-  SITE, BRAND, marked, fetchPostBySlug, esc, fmtDate, readTime, firstImage, renderPage,
+  SITE, BRAND, marked, fetchPostBySlug, esc, fmtDate, readTime, firstImage, extractFaq, renderPage,
 } = require('../lib/blog');
 
 module.exports = async (req, res) => {
@@ -52,6 +52,21 @@ module.exports = async (req, res) => {
     };
     if (cover) jsonLd.image = cover;
 
+    // FAQPage schema (a partir da seção "Perguntas Frequentes") — forte para IA e featured snippets.
+    const faq = extractFaq(post.content);
+    const schemas = [jsonLd];
+    if (faq.length) {
+      schemas.push({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map((f) => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+      });
+    }
+
     const body = `
 <div class="breadcrumb">
   <a href="/">Início</a><span class="sep">/</span>
@@ -92,7 +107,7 @@ module.exports = async (req, res) => {
     // Cache na CDN por 5min, revalida em background por 1 dia.
     res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=86400');
     res.end(renderPage({
-      title, description, canonicalPath, ogType: 'article', ogImage: cover, jsonLd, body,
+      title, description, canonicalPath, ogType: 'article', ogImage: cover, jsonLd: schemas, body,
       indexable: !isPreviewHost,
     }));
   } catch (e) {
