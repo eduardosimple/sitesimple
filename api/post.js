@@ -72,6 +72,13 @@ module.exports = async (req, res) => {
     <hr class="article-divider" />
     ${cover ? `<img class="cover-image" src="${esc(cover)}" alt="${esc(post.title)}" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;margin-bottom:2.5rem;border:1px solid var(--border)" />` : ''}
     <div class="prose">${contentHtml}</div>
+    <div class="author-box">
+      <div class="avatar">S</div>
+      <div class="who">
+        <strong>${esc(post.author || BRAND)}</strong>
+        <p>Agência de tráfego pago e marketing digital em Chapecó (SC). Ajudamos pequenas e médias empresas da região a transformar investimento em anúncios em clientes reais, com estratégia de performance e dados. <a href="/#contato">Fale com a Simple</a>.</p>
+      </div>
+    </div>
     <div class="cta-box">
       <h3>Quer crescer com performance digital em Chapecó?</h3>
       <p>Agende uma análise estratégica gratuita e descubra o potencial do seu negócio.</p>
